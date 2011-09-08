@@ -31,7 +31,7 @@ class Available(threading.Thread):
             self.lock.acquire()
             self.surface.fill((0, 0, 0))
             for nick in a:
-                surf = pygame.transform.rotate(self.font.render(nick, False, self.random_color()), random.random() * 360)
+                surf = pygame.transform.rotate(self.font.render(nick, True, self.random_color()), random.random() * 360)
                 self.surface.blit(surf, 
                           (random.randint(0, max(1, self.dim[0] - surf.get_width())),
                            random.randint(0, max(1, self.dim[1] - surf.get_height()))))
