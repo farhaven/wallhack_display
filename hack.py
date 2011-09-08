@@ -3,65 +3,15 @@ import sys
 import time
 import threading
 import jsonrpclib
-import json
+import random
+import math
+
+from available import Available
+from clock import Clock
+from eta import ETA
 
 screen_size = (1024, 768)
 rpcserver   = 'http://cube.lan:4254'
-
-class Clock(threading.Thread):
-    def __init__(self, dim, font):
-        threading.Thread.__init__(self)
-        self.surface = pygame.surface.Surface(dim)
-        self.surface.set_colorkey((0, 0, 0))
-        self.font = font
-        self.lock = threading.Lock()
-        self.daemon = True
-
-    def run(self):
-        while self.is_alive():
-            s = time.strftime("%H:%M")
-            self.lock.acquire()
-            self.surface.fill((0, 0, 0))
-            self.surface.blit(self.font.render(s, True, (255, 255, 255)), (0, 0))
-            self.lock.release()
-            time.sleep(60)
-
-class ETA(threading.Thread):
-    def __init__(self, dim, font):
-        threading.Thread.__init__(self)
-        self.surface = pygame.surface.Surface(dim)
-        self.surface.set_colorkey((0, 0, 0))
-        self.font = font
-        self.lock = threading.Lock()
-        self.daemon = True
-        jsonrpclib.config.version = 1.0
-        self.server = jsonrpclib.Server(rpcserver)
-
-    def get_eta(self):
-        try:
-            return self.server.who()[unicode('eta')]
-        except:
-            print("server not reachable. trying test.json instead")
-            try:
-                fd = open('test.json', 'r')
-                e = json.load(fd)
-                fd.close()
-                return e
-            except Exception as e:
-                print("loading test.json failed: " + str(e))
-                return { "farhaven": "1337 - foobar!", "fnord": "2342" }
-
-    def run(self):
-        eta = self.get_eta()
-        rect = [0, 0]
-        self.lock.acquire()
-        self.surface.fill((0, 0, 0))
-        for nick in eta:
-            s = "%s: %s" % (nick, eta[nick])
-            self.surface.blit(self.font.render(s, True, (255, 255, 255)), rect)
-            rect[1] = rect[1] + self.font.size(s)[1]
-        self.lock.release()
-        time.sleep(5)
 
 if __name__ == "__main__":
     pygame.init()
@@ -80,8 +30,12 @@ if __name__ == "__main__":
     clock.start()
 
     eta_font = pygame.font.SysFont("Liberation Mono, Monospace", 25)
-    eta = ETA(((screen_size[0] / 3) + 100, (screen_size[1] / 3) * 2), eta_font)
+    eta = ETA(((screen_size[0] / 3) + 100, (screen_size[1] / 3) * 2), eta_font, rpcserver)
     eta.start()
+
+    available_font = pygame.font.SysFont("Liberation Mono, Monospace", 50)
+    avail = Available(((screen_size[0] / 3) * 2 - 100, (screen_size[1] / 3) * 2 + 60), available_font, rpcserver)
+    avail.start()
 
     while True:
         for event in pygame.event.get():
@@ -100,4 +54,9 @@ if __name__ == "__main__":
         screen.blit(eta.surface, ((screen_size[0] / 3) * 2 - 90, 10))
         eta.lock.release()
 
+        avail.lock.acquire()
+        screen.blit(avail.surface, (0, 0))
+        avail.lock.release()
+
         pygame.display.flip()
+        time.sleep(0.001)
