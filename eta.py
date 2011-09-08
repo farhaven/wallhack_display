@@ -27,6 +27,8 @@ class ETA(threading.Thread):
             rect = [0, 0]
             self.lock.acquire()
             self.surface.fill((0, 0, 0))
+            self.surface.blit(self.font.render("ETA:", True, (255, 255, 255)), rect)
+            rect[1] = rect[1] + self.font.size("ETA")[1]
             for nick in eta:
                 s = "%s: %s" % (nick, eta[nick])
                 self.surface.blit(self.font.render(s, True, (255, 255, 255)), rect)
