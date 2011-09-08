@@ -2,8 +2,11 @@ import pygame
 import sys
 import time
 import threading
+import jsonrpclib
+import json
 
 screen_size = (1024, 768)
+rpcserver   = 'http://cube.lan:4254'
 
 class Clock(threading.Thread):
     def __init__(self, dim, font):
@@ -31,9 +34,22 @@ class ETA(threading.Thread):
         self.font = font
         self.lock = threading.Lock()
         self.daemon = True
+        jsonrpclib.config.version = 1.0
+        self.server = jsonrpclib.Server(rpcserver)
 
     def get_eta(self):
-        return { "farhaven": "1337 - foobar!", "fnord": "2342" }
+        try:
+            return self.server.who()[unicode('eta')]
+        except:
+            print("server not reachable. trying test.json instead")
+            try:
+                fd = open('test.json', 'r')
+                e = json.load(fd)
+                fd.close()
+                return e
+            except Exception as e:
+                print("loading test.json failed: " + str(e))
+                return { "farhaven": "1337 - foobar!", "fnord": "2342" }
 
     def run(self):
         eta = self.get_eta()
@@ -45,7 +61,7 @@ class ETA(threading.Thread):
             self.surface.blit(self.font.render(s, True, (255, 255, 255)), rect)
             rect[1] = rect[1] + self.font.size(s)[1]
         self.lock.release()
-        time.sleep(15)
+        time.sleep(5)
 
 if __name__ == "__main__":
     pygame.init()
