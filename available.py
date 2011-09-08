@@ -23,7 +23,7 @@ class Available(threading.Thread):
             return [ "could", "not", "reach", "server", self.rpcserver, str(time.time()) ]
 
     def random_color(self):
-        return (int(random.random() * 255), int(random.random() * 128), int(random.random() * 128))
+        return (int(random.random() * 255), int(random.random() * 255), int(random.random() * 255))
 
     def run(self):
         while True:
