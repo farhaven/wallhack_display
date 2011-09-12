@@ -38,5 +38,3 @@ class Available(threading.Thread):
 
             self.lock.release()
             time.sleep(1)
-
-
