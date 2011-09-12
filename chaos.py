@@ -14,9 +14,9 @@ class Chaos(threading.Thread):
         self.iter = 0
 
     def run(self):
-        radius = 150
+        radius_bottom = 150
+        radius_top    = 65
         white = (255, 255, 255)
-        target = (self.dim[0] / 2, self.dim[1] / 2 - 150)
         while True:
             if self.iter > math.pi / 2:
                 self.iter = 0
@@ -25,22 +25,32 @@ class Chaos(threading.Thread):
             self.lock.acquire()
             self.surface.fill((0, 0, 0))
 
-            pos1 = (int(math.cos(self.iter) * radius), int(math.sin(self.iter) * radius * 0.25))
-            pos2 = (self.dim[0] / 2 - pos1[0], self.dim[1] / 2 - pos1[1] + 150)
-            pos1 = (self.dim[0] / 2 + pos1[0], self.dim[1] / 2 + pos1[1] + 150)
+            pos1_b = (int(math.cos(self.iter) * radius_bottom), int(math.sin(self.iter) * radius_bottom * 0.2))
+            pos1_t = (int(math.cos(self.iter) * radius_top), int(math.sin(self.iter) * radius_top * 0.2))
+            pos2_b = (self.dim[0] / 2 - pos1_b[0], self.dim[1] / 2 - pos1_b[1] + 150)
+            pos2_t = (self.dim[0] / 2 - pos1_t[0], self.dim[1] / 2 - pos1_t[1] - 30)
+            pos1_b = (self.dim[0] / 2 + pos1_b[0], self.dim[1] / 2 + pos1_b[1] + 150)
+            pos1_t = (self.dim[0] / 2 + pos1_t[0], self.dim[1] / 2 + pos1_t[1] - 30)
 
-            pos3 = (int(math.cos(self.iter + math.pi / 2) * radius), int(math.sin(self.iter + math.pi / 2) * radius * 0.25))
-            pos4 = (self.dim[0] / 2 - pos3[0], self.dim[1] / 2 - pos3[1] + 150)
-            pos3 = (self.dim[0] / 2 + pos3[0], self.dim[1] / 2 + pos3[1] + 150)
+            pos3_b = (int(math.cos(self.iter + math.pi / 2) * radius_bottom), int(math.sin(self.iter + math.pi / 2) * radius_bottom * 0.2))
+            pos3_t = (int(math.cos(self.iter + math.pi / 2) * radius_top), int(math.sin(self.iter + math.pi / 2) * radius_top * 0.2))
+            pos4_b = (self.dim[0] / 2 - pos3_b[0], self.dim[1] / 2 - pos3_b[1] + 150)
+            pos4_t = (self.dim[0] / 2 - pos3_t[0], self.dim[1] / 2 - pos3_t[1] - 30)
+            pos3_b = (self.dim[0] / 2 + pos3_b[0], self.dim[1] / 2 + pos3_b[1] + 150)
+            pos3_t = (self.dim[0] / 2 + pos3_t[0], self.dim[1] / 2 + pos3_t[1] - 30)
 
-            pygame.draw.lines(self.surface, white, True, [pos1, pos3, pos2, pos4])
-            pygame.draw.line(self.surface, white, pos1, pos2)
-            pygame.draw.line(self.surface, white, pos3, pos4)
+            pygame.draw.lines(self.surface, white, True, [pos1_b, pos3_b, pos2_b, pos4_b])
+            pygame.draw.line(self.surface, white, pos1_b, pos2_b)
+            pygame.draw.line(self.surface, white, pos3_b, pos4_b)
 
-            pygame.draw.line(self.surface, white, pos1, target)
-            pygame.draw.line(self.surface, white, pos2, target)
-            pygame.draw.line(self.surface, white, pos3, target)
-            pygame.draw.line(self.surface, white, pos4, target)
+            pygame.draw.lines(self.surface, white, True, [pos1_t, pos3_t, pos2_t, pos4_t])
+            pygame.draw.line(self.surface, white, pos1_t, pos2_t)
+            pygame.draw.line(self.surface, white, pos3_t, pos4_t)
+
+            pygame.draw.line(self.surface, white, pos1_b, pos1_t)
+            pygame.draw.line(self.surface, white, pos2_b, pos2_t)
+            pygame.draw.line(self.surface, white, pos3_b, pos3_t)
+            pygame.draw.line(self.surface, white, pos4_b, pos4_t)
 
             self.lock.release()
 
