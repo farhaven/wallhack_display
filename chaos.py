@@ -14,7 +14,8 @@ class Chaos(threading.Thread):
         self.iter = 0
 
     def run(self):
-        radius = 100
+        radius = 150
+        white = (255, 255, 255)
         target = (self.dim[0] / 2, self.dim[1] / 2 - 150)
         while True:
             if self.iter > math.pi / 2:
@@ -24,30 +25,23 @@ class Chaos(threading.Thread):
             self.lock.acquire()
             self.surface.fill((0, 0, 0))
 
-            x = int(math.cos(self.iter) * radius + self.dim[0] / 2)
-            y = int(math.sin(self.iter) * radius * 0.5 + self.dim[1] / 2)
-            pygame.draw.circle(self.surface, (255, 255, 255), (x, y), 2)
-            pygame.draw.line(self.surface, (255, 255, 255), (x, y), target)
+            pos1 = (int(math.cos(self.iter) * radius), int(math.sin(self.iter) * radius * 0.25))
+            pos2 = (self.dim[0] / 2 - pos1[0], self.dim[1] / 2 - pos1[1] + 150)
+            pos1 = (self.dim[0] / 2 + pos1[0], self.dim[1] / 2 + pos1[1] + 150)
 
-            x2 = int(math.cos(self.iter + math.pi / 2) * radius + self.dim[0] / 2)
-            y2 = int(math.sin(self.iter + math.pi / 2) * radius * 0.5 + self.dim[1] / 2)
-            pygame.draw.circle(self.surface, (255, 255, 255), (x2, y2), 2)
-            pygame.draw.line(self.surface, (255, 255, 255), (x2, y2), target)
-            pygame.draw.line(self.surface, (255, 255, 255), (x, y), (x2, y2))
+            pos3 = (int(math.cos(self.iter + math.pi / 2) * radius), int(math.sin(self.iter + math.pi / 2) * radius * 0.25))
+            pos4 = (self.dim[0] / 2 - pos3[0], self.dim[1] / 2 - pos3[1] + 150)
+            pos3 = (self.dim[0] / 2 + pos3[0], self.dim[1] / 2 + pos3[1] + 150)
 
-            x3 = int(math.cos(self.iter + math.pi) * radius + self.dim[0] / 2)
-            y3 = int(math.sin(self.iter + math.pi) * radius * 0.5 + self.dim[1] / 2)
-            pygame.draw.circle(self.surface, (255, 255, 255), (x3, y3), 2)
-            pygame.draw.line(self.surface, (255, 255, 255), (x3, y3), target)
-            pygame.draw.line(self.surface, (255, 255, 255), (x2, y2), (x3, y3))
+            pygame.draw.lines(self.surface, white, True, [pos1, pos3, pos2, pos4])
+            pygame.draw.line(self.surface, white, pos1, pos2)
+            pygame.draw.line(self.surface, white, pos3, pos4)
 
-            x2 = int(math.cos(self.iter + 3 * (math.pi / 2)) * radius + self.dim[0] / 2)
-            y2 = int(math.sin(self.iter + 3 * (math.pi / 2)) * radius * 0.5 + self.dim[1] / 2)
-            pygame.draw.circle(self.surface, (255, 255, 255), (x2, y2), 2)
-            pygame.draw.line(self.surface, (255, 255, 255), (x2, y2), target)
-            pygame.draw.line(self.surface, (255, 255, 255), (x3, y3), (x2, y2))
-            pygame.draw.line(self.surface, (255, 255, 255), (x, y), (x2, y2))
+            pygame.draw.line(self.surface, white, pos1, target)
+            pygame.draw.line(self.surface, white, pos2, target)
+            pygame.draw.line(self.surface, white, pos3, target)
+            pygame.draw.line(self.surface, white, pos4, target)
 
             self.lock.release()
 
-            time.sleep(0.001)
+            time.sleep(0.005)
