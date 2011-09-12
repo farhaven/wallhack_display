@@ -5,11 +5,11 @@ import jsonrpclib
 import random
 
 class Available(threading.Thread):
-    def __init__(self, dim, font, rpcserver):
+    def __init__(self, dim, rpcserver):
         threading.Thread.__init__(self)
         self.surface = pygame.surface.Surface(dim)
         self.surface.set_colorkey((0, 0, 0))
-        self.font = font
+        self.font = pygame.font.SysFont("Liberation Mono, Monospace", 50)
         self.lock = threading.Lock()
         self.daemon = True
         self.rpcserver = rpcserver

@@ -3,11 +3,11 @@ import threading
 import time
 
 class Clock(threading.Thread):
-    def __init__(self, dim, font):
+    def __init__(self, dim):
         threading.Thread.__init__(self)
         self.surface = pygame.surface.Surface(dim)
         self.surface.set_colorkey((0, 0, 0))
-        self.font = font
+        self.font = pygame.font.SysFont("Liberation Mono, Monospace", 175)
         self.lock = threading.Lock()
         self.daemon = True
 

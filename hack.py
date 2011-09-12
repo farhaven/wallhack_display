@@ -26,16 +26,13 @@ if __name__ == "__main__":
     pygame.draw.line(background, (255, 255, 255), (0, (screen_size[1] / 3) * 2 + 60), ((screen_size[0] / 3) * 2 - 100, (screen_size[1] / 3) * 2 + 60))
     pygame.draw.rect(background, (255, 255, 255), (0, 0, screen_size[0], screen_size[1]), 1)
 
-    clock_font = pygame.font.SysFont("Liberation Mono, Monospace", 175)
-    clock = Clock(((screen_size[0] / 3) * 2 - 80, (screen_size[1] / 3)), clock_font)
+    clock = Clock(((screen_size[0] / 3) * 2 - 80, (screen_size[1] / 3)))
     clock.start()
 
-    eta_font = pygame.font.SysFont("Liberation Mono, Monospace", 25)
-    eta = ETA(((screen_size[0] / 3) + 100, (screen_size[1] / 3) * 2), eta_font, rpcserver)
+    eta = ETA(((screen_size[0] / 3) + 100, (screen_size[1] / 3) * 2), rpcserver)
     eta.start()
 
-    available_font = pygame.font.SysFont("Liberation Mono, Monospace", 50)
-    avail = Available(((screen_size[0] / 3) * 2 - 100, (screen_size[1] / 3) * 2 + 60), available_font, rpcserver)
+    avail = Available(((screen_size[0] / 3) * 2 - 100, (screen_size[1] / 3) * 2 + 60), rpcserver)
     avail.start()
 
     while True:
