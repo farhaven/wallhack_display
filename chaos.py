@@ -52,6 +52,29 @@ class Chaos(threading.Thread):
             pygame.draw.line(self.surface, white, pos3_b, pos3_t)
             pygame.draw.line(self.surface, white, pos4_b, pos4_t)
 
+            eye = (int(self.dim[0] / 2), self.dim[0] / 2 - 60)
+            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1]),      (eye[0] + 40,  eye[1]))
+            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 80), (eye[0] + 40,  eye[1] - 80))
+
+            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 80), (eye[0] - 140, eye[1] - 40))
+            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1]),      (eye[0] - 140, eye[1] - 40))
+
+            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1]),      (eye[0] + 140, eye[1] - 40))
+            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1] - 80), (eye[0] + 140, eye[1] - 40))
+
+            pygame.draw.line(self.surface, white, (eye[0] - 20, eye[1]),      (eye[0] - 40,  eye[1] - 20))
+            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 20), (eye[0] - 40,  eye[1] - 60))
+            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 60), (eye[0] - 20,  eye[1] - 80))
+
+            pygame.draw.line(self.surface, white, (eye[0] + 20, eye[1]),      (eye[0] + 40,  eye[1] - 20))
+            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1] - 20), (eye[0] + 40,  eye[1] - 60))
+            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1] - 60), (eye[0] + 20,  eye[1] - 80))
+
+            pygame.draw.line(self.surface, white, (eye[0] - 15, eye[1] - 25), (eye[0] + 15,  eye[1] - 25))
+            pygame.draw.line(self.surface, white, (eye[0] - 15, eye[1] - 25), (eye[0] - 15,  eye[1] - 55))
+            pygame.draw.line(self.surface, white, (eye[0] - 15, eye[1] - 55), (eye[0] + 15,  eye[1] - 55))
+            pygame.draw.line(self.surface, white, (eye[0] + 15, eye[1] - 55), (eye[0] + 15,  eye[1] - 25))
+
             self.lock.release()
 
             time.sleep(0.005)
