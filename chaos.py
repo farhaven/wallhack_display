@@ -17,6 +17,7 @@ class Chaos(threading.Thread):
         radius_bottom = 150
         radius_top    = 65
         white = (255, 255, 255)
+        green = (0, 255, 0)
         while True:
             if self.iter > math.pi / 2:
                 self.iter = 0
@@ -39,41 +40,41 @@ class Chaos(threading.Thread):
             pos3_b = (self.dim[0] / 2 + pos3_b[0], self.dim[1] / 2 + pos3_b[1] + 150)
             pos3_t = (self.dim[0] / 2 + pos3_t[0], self.dim[1] / 2 + pos3_t[1] - 30)
 
-            pygame.draw.lines(self.surface, white, True, [pos1_b, pos3_b, pos2_b, pos4_b])
-            pygame.draw.line(self.surface, white, pos1_b, pos2_b)
-            pygame.draw.line(self.surface, white, pos3_b, pos4_b)
+            pygame.draw.lines(self.surface, green, True, [pos1_b, pos3_b, pos2_b, pos4_b], 3)
+            pygame.draw.line(self.surface, green, pos1_b, pos2_b, 3)
+            pygame.draw.line(self.surface, green, pos3_b, pos4_b, 3)
 
-            pygame.draw.lines(self.surface, white, True, [pos1_t, pos3_t, pos2_t, pos4_t])
-            pygame.draw.line(self.surface, white, pos1_t, pos2_t)
-            pygame.draw.line(self.surface, white, pos3_t, pos4_t)
+            pygame.draw.lines(self.surface, green, True, [pos1_t, pos3_t, pos2_t, pos4_t], 3)
+            pygame.draw.line(self.surface, green, pos1_t, pos2_t, 3)
+            pygame.draw.line(self.surface, green, pos3_t, pos4_t, 3)
 
-            pygame.draw.line(self.surface, white, pos1_b, pos1_t)
-            pygame.draw.line(self.surface, white, pos2_b, pos2_t)
-            pygame.draw.line(self.surface, white, pos3_b, pos3_t)
-            pygame.draw.line(self.surface, white, pos4_b, pos4_t)
+            pygame.draw.line(self.surface, green, pos1_b, pos1_t, 3)
+            pygame.draw.line(self.surface, green, pos2_b, pos2_t, 3)
+            pygame.draw.line(self.surface, green, pos3_b, pos3_t, 3)
+            pygame.draw.line(self.surface, green, pos4_b, pos4_t, 3)
 
             eye = (int(self.dim[0] / 2), self.dim[0] / 2 - 60)
-            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1]),      (eye[0] + 40,  eye[1]))
-            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 80), (eye[0] + 40,  eye[1] - 80))
+            pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1]),      (eye[0] + 40,  eye[1]), 3)
+            pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80), (eye[0] + 40,  eye[1] - 80), 3)
 
-            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 80), (eye[0] - 140, eye[1] - 40))
-            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1]),      (eye[0] - 140, eye[1] - 40))
+            pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80), (eye[0] - 140, eye[1] - 40), 3)
+            pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1]),      (eye[0] - 140, eye[1] - 40), 3)
 
-            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1]),      (eye[0] + 140, eye[1] - 40))
-            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1] - 80), (eye[0] + 140, eye[1] - 40))
+            pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1]),      (eye[0] + 140, eye[1] - 40), 3)
+            pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1] - 80), (eye[0] + 140, eye[1] - 40), 3)
 
-            pygame.draw.line(self.surface, white, (eye[0] - 20, eye[1]),      (eye[0] - 40,  eye[1] - 20))
-            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 20), (eye[0] - 40,  eye[1] - 60))
-            pygame.draw.line(self.surface, white, (eye[0] - 40, eye[1] - 60), (eye[0] - 20,  eye[1] - 80))
+            pygame.draw.line(self.surface, green, (eye[0] - 20, eye[1]),      (eye[0] - 40,  eye[1] - 20), 3)
+            pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 20), (eye[0] - 40,  eye[1] - 60), 3)
+            pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 60), (eye[0] - 20,  eye[1] - 80), 3)
 
-            pygame.draw.line(self.surface, white, (eye[0] + 20, eye[1]),      (eye[0] + 40,  eye[1] - 20))
-            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1] - 20), (eye[0] + 40,  eye[1] - 60))
-            pygame.draw.line(self.surface, white, (eye[0] + 40, eye[1] - 60), (eye[0] + 20,  eye[1] - 80))
+            pygame.draw.line(self.surface, green, (eye[0] + 20, eye[1]),      (eye[0] + 40,  eye[1] - 20), 3)
+            pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1] - 20), (eye[0] + 40,  eye[1] - 60), 3)
+            pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1] - 60), (eye[0] + 20,  eye[1] - 80), 3)
 
-            pygame.draw.line(self.surface, white, (eye[0] - 15, eye[1] - 25), (eye[0] + 15,  eye[1] - 25))
-            pygame.draw.line(self.surface, white, (eye[0] - 15, eye[1] - 25), (eye[0] - 15,  eye[1] - 55))
-            pygame.draw.line(self.surface, white, (eye[0] - 15, eye[1] - 55), (eye[0] + 15,  eye[1] - 55))
-            pygame.draw.line(self.surface, white, (eye[0] + 15, eye[1] - 55), (eye[0] + 15,  eye[1] - 25))
+            pygame.draw.line(self.surface, green, (eye[0] - 15, eye[1] - 25), (eye[0] + 15,  eye[1] - 25), 3)
+            pygame.draw.line(self.surface, green, (eye[0] - 15, eye[1] - 25), (eye[0] - 15,  eye[1] - 55), 3)
+            pygame.draw.line(self.surface, green, (eye[0] - 15, eye[1] - 55), (eye[0] + 15,  eye[1] - 55), 3)
+            pygame.draw.line(self.surface, green, (eye[0] + 15, eye[1] - 55), (eye[0] + 15,  eye[1] - 25), 3)
 
             self.lock.release()
 

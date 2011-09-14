@@ -12,11 +12,12 @@ class Clock(threading.Thread):
         self.daemon = True
 
     def run(self):
+        green = (0, 255, 0)
         while True:
             s = time.strftime("%H:%M")
             self.lock.acquire()
             self.surface.fill((0, 0, 0))
-            self.surface.blit(self.font.render(s, True, (255, 255, 255)), (0, 0))
+            self.surface.blit(self.font.render(s, True, green), (0, 0))
             self.lock.release()
             time.sleep(1)
 
