@@ -21,27 +21,26 @@ black = (0, 0, 0)
 if __name__ == "__main__":
     pygame.init()
 
-    screen = pygame.display.set_mode(screen_size) #, pygame.FULLSCREEN)
+    screen = pygame.display.set_mode(screen_size)
     pygame.display.set_caption("Wallhack")
 
     background = pygame.surface.Surface(screen_size)
-    background.fill((0, 0, 0))
+    background.fill(black)
 
-    pygame.draw.line(background, green, ((screen_size[0] / 3) * 2 - 100, 0), ((screen_size[0] / 3) * 2 - 100, screen_size[1]), 4)
-    pygame.draw.line(background, green, (0, (screen_size[1] / 3) * 2 + 60), ((screen_size[0] / 3) * 2 - 100, (screen_size[1] / 3) * 2 + 60), 4)
     pygame.draw.rect(background, green, (0, 0, screen_size[0], screen_size[1]), 4)
 
-    clock = Clock(((screen_size[0] / 3) * 2 - 80, (screen_size[1] / 3)))
+    clock = Clock(screen_size)
     clock.start()
 
-    eta = ETA(((screen_size[0] / 3) + 100, (screen_size[1] / 3) * 2), rpcserver)
+    eta = ETA(screen_size, rpcserver)
     eta.start()
 
-    # avail = Available(((screen_size[0] / 3) * 2 - 100, (screen_size[1] / 3) * 2 + 60), rpcserver)
-    # avail.start()
-
-    chaos = Chaos(((screen_size[0] / 3) * 2 - 100, (screen_size[1] / 3) * 2 + 60))
+    chaos = Chaos(screen_size)
     chaos.start()
+
+    modules = [ (clock, 3), (eta, 3), (chaos, 3) ]
+    mod = 0
+    mod_timer = time.time()
 
     while True:
         for event in pygame.event.get():
@@ -52,21 +51,15 @@ if __name__ == "__main__":
         screen.fill(black)
         screen.blit(background, (0, 0))
 
-        clock.lock.acquire()
-        screen.blit(clock.surface, (25, (screen_size[1] / 3) * 2 + 70))
-        clock.lock.release()
+        if time.time() > mod_timer + modules[mod][1]:
+            mod_timer = time.time()
+            mod = mod + 1
+            if mod >= len(modules):
+                mod = 0
 
-        eta.lock.acquire()
-        screen.blit(eta.surface, ((screen_size[0] / 3) * 2 - 90, 10))
-        eta.lock.release()
-
-        # avail.lock.acquire()
-        # screen.blit(avail.surface, (0, 0))
-        # avail.lock.release()
-
-        chaos.lock.acquire()
-        screen.blit(chaos.surface, (0, 0))
-        chaos.lock.release()
+        modules[mod][0].lock.acquire()
+        screen.blit(modules[mod][0].surface, (0, 0))
+        modules[mod][0].lock.release()
 
         for l in range(1, screen_size[1], 5):
             pygame.draw.line(screen, darkgreen, (0, l), (screen_size[0], l), 1)

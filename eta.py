@@ -3,16 +3,20 @@ import pygame
 import threading
 import time
 
+jsonrpclib.config.version = 1.0
+
+black = (0, 0, 0)
+green = (0, 255, 0)
+
 class ETA(threading.Thread):
+    daemon = True
     def __init__(self, dim, rpcserver):
         threading.Thread.__init__(self)
         self.surface = pygame.surface.Surface(dim)
-        self.surface.set_colorkey((0, 0, 0))
-        self.font = pygame.font.SysFont("Liberation Mono, Monospace", 30)
-        self.font_heading = pygame.font.SysFont("Liberation Mono, Monospace", 35)
+        self.surface.set_colorkey(black)
+        self.font_heading = pygame.font.SysFont("Liberation Mono, Monospace", 65)
+        self.font = pygame.font.SysFont("Liberation Mono, Monospace", 55)
         self.lock = threading.Lock()
-        self.daemon = True
-        jsonrpclib.config.version = 1.0
         self.rpcserver = rpcserver
         self.server = jsonrpclib.Server(rpcserver)
 
@@ -32,26 +36,27 @@ class ETA(threading.Thread):
         green = (0, 255, 0)
         while True:
             eta  = self.get_eta()
-            rect = [0, 0]
-
-            txt_head = "TODO:" if len(eta) == 0 else "ETA:"
-            txt_body = []
-
-            if len(eta) == 0:
-                txt_body = map(lambda s: "- " + s, self.get_todo())
-            else:
-                for nick in eta:
-                    txt_body.append("%s: %s" % (nick, eta[nick]))
+            todo = self.get_todo()
+            rect = [ 20, 20 ]
 
             self.lock.acquire()
-            self.surface.fill((0, 0, 0))
+            self.surface.fill(black)
 
-            self.surface.blit(self.font_heading.render(txt_head, True, green), rect)
-            rect[1] = rect[1] + self.font_heading.size(txt_head)[1]
+            if len(eta) != 0:
+                self.surface.blit(self.font_heading.render("ETA:", True, green), rect)
+                rect[1] = rect[1] + self.font_heading.size("ETA:")[1]
+                for nick in eta:
+                    s = "%s: %s" % (nick, eta[nick])
+                    self.surface.blit(self.font.render(s, True, green), rect)
+                    rect[1] = rect[1] + self.font.size(s)[1]
+                rect[1] = rect[1] + self.font.size("foo")[1]
 
-            for line in txt_body:
-                self.surface.blit(self.font.render(line, True, green), rect)
-                rect[1] = rect[1] + self.font.size(line)[1]
+            if len(todo) != 0:
+                self.surface.blit(self.font_heading.render("TODO:", True, green), rect)
+                rect[1] = rect[1] + self.font_heading.size("TODO:")[1]
+                for t in todo:
+                    self.surface.blit(self.font.render("- " + t, True, green), rect)
+                    rect[1] = rect[1] + self.font.size("- " + t)[1]
 
             self.lock.release()
             time.sleep(5)

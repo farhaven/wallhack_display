@@ -53,7 +53,7 @@ class Chaos(threading.Thread):
             pygame.draw.line(self.surface, green, pos3_b, pos3_t, 3)
             pygame.draw.line(self.surface, green, pos4_b, pos4_t, 3)
 
-            eye = (int(self.dim[0] / 2), self.dim[0] / 2 - 60)
+            eye = (int(self.dim[0] / 2), int(self.dim[0] / 2) - 200)
             pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1]),      (eye[0] + 40,  eye[1]), 3)
             pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80), (eye[0] + 40,  eye[1] - 80), 3)
 
