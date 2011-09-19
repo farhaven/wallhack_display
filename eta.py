@@ -19,6 +19,7 @@ class ETA(threading.Thread):
         self.lock = threading.Lock()
         self.rpcserver = rpcserver
         self.server = jsonrpclib.Server(rpcserver)
+        self.timeout = 0
 
     def get_eta(self):
         try:
@@ -32,11 +33,16 @@ class ETA(threading.Thread):
         except:
             return [ "fix server" ]
 
+    def get_timeout(self):
+        return self.timeout
+
     def run(self):
         green = (0, 255, 0)
         while True:
             eta  = self.get_eta()
             todo = self.get_todo()
+            self.timeout = len(eta) * 0.5 + len(todo)
+
             rect = [ 20, 20 ]
 
             self.lock.acquire()

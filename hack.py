@@ -38,7 +38,7 @@ if __name__ == "__main__":
     chaos = Chaos(screen_size)
     chaos.start()
 
-    modules = [ (clock, 3), (eta, 3), (chaos, 3) ]
+    modules = [ (clock, lambda: 4), (eta, eta.get_timeout), (chaos, lambda: 3) ]
     mod = 0
     mod_timer = time.time()
 
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         screen.fill(black)
         screen.blit(background, (0, 0))
 
-        if time.time() > mod_timer + modules[mod][1]:
+        if time.time() > mod_timer + modules[mod][1]():
             mod_timer = time.time()
             mod = mod + 1
             if mod >= len(modules):
