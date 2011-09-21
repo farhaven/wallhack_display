@@ -10,7 +10,8 @@ green = (0, 255, 0)
 
 class ETA(threading.Thread):
     daemon = True
-    def __init__(self, dim, rpcserver):
+    timeout = 0
+    def __init__(self, dim, rpcserver, clock):
         threading.Thread.__init__(self)
         self.surface = pygame.surface.Surface(dim)
         self.surface.set_colorkey(black)
@@ -19,7 +20,8 @@ class ETA(threading.Thread):
         self.lock = threading.Lock()
         self.rpcserver = rpcserver
         self.server = jsonrpclib.Server(rpcserver)
-        self.timeout = 0
+        self.clock = clock
+        self.dim = dim
 
     def get_eta(self):
         try:
@@ -64,6 +66,9 @@ class ETA(threading.Thread):
                     self.surface.blit(self.font.render("- " + t, True, green), rect)
                     rect[1] = rect[1] + self.font.size("- " + t)[1]
 
+            self.clock.lock.acquire()
+            self.surface.blit(self.clock.surface, (self.dim[0] - self.clock.get_dimensions()[0] - 10, 0))
+            self.clock.lock.release()
             self.lock.release()
             time.sleep(5)
 

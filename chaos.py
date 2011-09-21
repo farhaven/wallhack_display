@@ -4,20 +4,23 @@ import time
 import math
 
 class Chaos(threading.Thread):
-    def __init__(self, dim):
+    iter = 0
+    daemon = True
+    def __init__(self, dim, clock):
         threading.Thread.__init__(self)
-        self.daemon = True
         self.lock = threading.Lock()
         self.surface = pygame.surface.Surface(dim)
         self.surface.set_colorkey((0, 0, 0))
         self.dim = dim
-        self.iter = 0
+        self.clock = clock
 
     def run(self):
         radius_bottom = 150
         radius_top    = 65
         white = (255, 255, 255)
         green = (0, 255, 0)
+        s = pygame.surface.Surface((80, 80))
+        s.fill((0, 0, 0))
         while True:
             if self.iter > math.pi / 2:
                 self.iter = 0
@@ -85,6 +88,9 @@ class Chaos(threading.Thread):
             pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80), (eye[0] - 140, eye[1] - 40), 3)
             pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1] - 80), (eye[0] + 140, eye[1] - 40), 3)
 
+            self.clock.lock.acquire()
+            self.surface.blit(self.clock.surface, (self.dim[0] - self.clock.get_dimensions()[0] - 10, 0))
+            self.clock.lock.release()
             self.lock.release()
 
             time.sleep(0.005)

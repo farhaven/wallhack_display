@@ -29,16 +29,16 @@ if __name__ == "__main__":
 
     pygame.draw.rect(background, green, (0, 0, screen_size[0], screen_size[1]), 4)
 
-    clock = Clock(screen_size)
+    clock = Clock()
     clock.start()
 
-    eta = ETA(screen_size, rpcserver)
+    eta = ETA(screen_size, rpcserver, clock)
     eta.start()
 
-    chaos = Chaos(screen_size)
+    chaos = Chaos(screen_size, clock)
     chaos.start()
 
-    modules = [ (clock, lambda: 4), (eta, eta.get_timeout), (chaos, lambda: 3) ]
+    modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
     mod = 0
     mod_timer = time.time()
 
@@ -65,4 +65,4 @@ if __name__ == "__main__":
             pygame.draw.line(screen, darkgreen, (0, l), (screen_size[0], l), 1)
 
         pygame.display.flip()
-        time.sleep(0.001)
+        time.sleep(0.005)
