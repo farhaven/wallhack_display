@@ -2,32 +2,73 @@ import threading
 import pygame
 import time
 import math
+import random
+import jsonrpclib
+
+jsonrpclib.config.version = 1.0
+black = (0, 0, 0)
+white = (255, 255, 255)
+green = (0, 255, 0)
+darkgreen = (0, 127, 0)
+
+class Chaos_background(threading.Thread):
+    daemon = True
+    def __init__(self, dim, rpcserver):
+        threading.Thread.__init__(self)
+        self.surface = pygame.surface.Surface(dim)
+        self.surface.set_colorkey(black)
+        self.dim = dim
+        self.font = pygame.font.SysFont("Liberation Mono, Monospace", 55)
+        self.rpcserver = rpcserver
+        self.server = jsonrpclib.Server(rpcserver)
+        self.lock = threading.Lock()
+
+    def get_available(self):
+        try:
+            return self.server.who()[unicode('available')]
+        except Exception as err:
+            return [ "fix", self.rpcserver, str(err) ]
+
+    def run(self):
+        while True:
+            self.lock.acquire()
+            self.surface.fill(black)
+            print(str(self.get_available()))
+            for nick in self.get_available():
+                self.surface.blit(pygame.transform.rotate(self.font.render(nick, False, darkgreen), random.random() * 360),
+                          (random.randint(0, self.dim[0] - self.font.size('foobar')[0]), random.randint(0, self.dim[1] - self.font.size('foobar')[1])))
+            self.lock.release()
+            time.sleep(5)
 
 class Chaos(threading.Thread):
     iter = 0
     daemon = True
-    def __init__(self, dim, clock):
+    def __init__(self, dim, rpcserver, clock):
         threading.Thread.__init__(self)
         self.lock = threading.Lock()
         self.surface = pygame.surface.Surface(dim)
-        self.surface.set_colorkey((0, 0, 0))
+        self.surface.set_colorkey(black)
         self.dim = dim
         self.clock = clock
+        self.rpcserver = rpcserver
+        self.background = Chaos_background(dim, rpcserver)
 
     def run(self):
         radius_bottom = 150
         radius_top    = 65
-        white = (255, 255, 255)
-        green = (0, 255, 0)
         s = pygame.surface.Surface((80, 80))
-        s.fill((0, 0, 0))
+        s.fill(black)
+        self.background.start()
         while True:
             if self.iter > math.pi / 2:
                 self.iter = 0
             self.iter = self.iter + 0.01
 
             self.lock.acquire()
-            self.surface.fill((0, 0, 0))
+            self.surface.fill(black)
+            self.background.lock.acquire()
+            self.surface.blit(self.background.surface, (0, 0))
+            self.background.lock.release()
 
             pos1_b = (int(math.cos(self.iter) * radius_bottom), int(math.sin(self.iter) * radius_bottom * 0.2))
             pos1_t = (int(math.cos(self.iter) * radius_top), int(math.sin(self.iter) * radius_top * 0.2))

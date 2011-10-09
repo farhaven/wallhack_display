@@ -35,7 +35,7 @@ if __name__ == "__main__":
     eta = ETA(screen_size, rpcserver, clock)
     eta.start()
 
-    chaos = Chaos(screen_size, clock)
+    chaos = Chaos(screen_size, rpcserver, clock)
     chaos.start()
 
     modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
