@@ -27,13 +27,14 @@ class Chaos_background(threading.Thread):
         try:
             return self.server.who()[unicode('available')]
         except Exception as err:
-            return [ "fix", self.rpcserver, str(err) ]
+            rv = [ "fix", self.rpcserver ]
+            rv.extend(str(err).split())
+            return rv
 
     def run(self):
         while True:
             self.lock.acquire()
             self.surface.fill(black)
-            print(str(self.get_available()))
             for nick in self.get_available():
                 self.surface.blit(pygame.transform.rotate(self.font.render(nick, False, darkgreen), random.random() * 360),
                           (random.randint(0, self.dim[0] - self.font.size('foobar')[0]), random.randint(0, self.dim[1] - self.font.size('foobar')[1])))
@@ -56,8 +57,6 @@ class Chaos(threading.Thread):
     def run(self):
         radius_bottom = 150
         radius_top    = 65
-        s = pygame.surface.Surface((80, 80))
-        s.fill(black)
         self.background.start()
         while True:
             if self.iter > math.pi / 2:
@@ -98,6 +97,7 @@ class Chaos(threading.Thread):
             pygame.draw.line(self.surface, green, pos4_b, pos4_t, 3)
 
             eye = (int(self.dim[0] / 2), int(self.dim[0] / 2) - 200)
+            self.surface.set_clip(pygame.Rect((eye[0] - 40, eye[1] - 80 * math.sin(self.iter * 2)), (80, math.sin(self.iter * 2) * 80)))
 
             pygame.draw.circle(self.surface, green, (eye[0], eye[1] - 40), 40, 3)
             pygame.draw.circle(self.surface, green, (eye[0], eye[1] - 40), 15)
@@ -115,6 +115,8 @@ class Chaos(threading.Thread):
                 pygame.draw.line(self.surface, green, (eye[0], eye[1] - 40), pos3_b, 2)
                 pygame.draw.line(self.surface, green, (eye[0], eye[1] - 40), pos4_b, 2)
 
+            self.surface.set_clip(None)
+
             pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1]),      (eye[0] + 40,  eye[1]), 3)
             pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80 * (math.sin(self.iter * 2))), (eye[0] + 40,  eye[1] - 80 * (math.sin(self.iter * 2))), 3)
 
@@ -124,7 +126,6 @@ class Chaos(threading.Thread):
             pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1]),      (eye[0] + 140, eye[1] - 40), 3)
             pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1] - 80 * (math.sin(self.iter * 2))), (eye[0] + 140, eye[1] - 40), 3)
 
-            self.surface.blit(s, (eye[0] - 40, eye[1] - (80 * (math.sin(self.iter * 2))) - 81))
             pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80), (eye[0] + 40, eye[1] - 80), 3)
             pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80), (eye[0] - 140, eye[1] - 40), 3)
             pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1] - 80), (eye[0] + 140, eye[1] - 40), 3)
