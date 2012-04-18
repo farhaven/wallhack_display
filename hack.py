@@ -22,7 +22,8 @@ black = (0, 0, 0)
 if __name__ == "__main__":
 	pygame.init()
 
-	screen = pygame.display.set_mode(screen_size)
+	# screen = pygame.display.set_mode(screen_size)
+  screen = pygame.display.set_mode(screen_size, pygame.FULLSCREEN)
 	pygame.display.set_caption("Wallhack")
 
 	background = pygame.surface.Surface(screen_size)
@@ -34,7 +35,7 @@ if __name__ == "__main__":
 	clock.start()
 
 	eta = ETA(screen_size, rpcserver, clock)
-	# eta.start()
+	eta.start()
 
 	chaos = Chaos(screen_size, rpcserver, clock)
 	chaos.start()
@@ -42,7 +43,7 @@ if __name__ == "__main__":
 	subraum = Subraum(screen_size, clock)
 	# subraum.start()
 
-	modules = [ (chaos, lambda: 4) ]
+	modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
 	mod = 0
 	mod_timer = time.time()
 
