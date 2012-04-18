@@ -40,7 +40,7 @@ if __name__ == "__main__":
 	chaos = Chaos(screen_size, rpcserver, clock)
 	chaos.start()
 
-	subraum = Subraum(screen_size, clock)
+	# subraum = Subraum(screen_size, clock)
 	# subraum.start()
 
 	modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
