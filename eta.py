@@ -46,11 +46,11 @@ class ETAListen(threading.Thread):
 		self.socket.listen(0)
 
 	def append(self, data):
-		self.lock.acquire()
+		# self.lock.acquire()
 		for d in data.strip().split('\n'):
 			self.data.append(d.replace('\t', ' '))
 		self.data = self.data[-10:]
-		self.lock.release()
+		# self.lock.release()
 
 	def get(self):
 		return self.data
@@ -111,7 +111,7 @@ class ETA(threading.Thread):
 
 			if len(data) != 0:
 				self.surface.blit(self.font_heading.render("NOISE (" + str(self.nw.port) + "):", True, green), rect)
-				rect[1] = rect[1] + self.font_heading.size("NOISE (" + str(self.nw.port) + "):")[1]
+				rect[1] = rect[1] + self.font_heading.size("N")[1]
 				for t in data:
 					self.surface.blit(self.font.render(t, True, green), rect)
 					rect[1] = rect[1] + self.font.size(t)[1]
