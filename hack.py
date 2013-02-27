@@ -22,8 +22,8 @@ black = (0, 0, 0)
 if __name__ == "__main__":
 	pygame.init()
 
-	screen = pygame.display.set_mode(screen_size)
-	# screen = pygame.display.set_mode(screen_size, pygame.FULLSCREEN)
+	# screen = pygame.display.set_mode(screen_size)
+	screen = pygame.display.set_mode(screen_size, pygame.FULLSCREEN)
 	pygame.display.set_caption("Wallhack")
 
 	background = pygame.surface.Surface(screen_size)

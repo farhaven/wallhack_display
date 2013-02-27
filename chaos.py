@@ -46,8 +46,7 @@ class Chaos_background(threading.Thread):
 		try:
 			nicks = self.server.who()[unicode('available')]
 		except Exception as err:
-			nicks = [ "fix", self.rpcserver ]
-			nicks.extend(str(err).split())
+			nicks = [ "fix", self.rpcserver, str(err) ]
 		for n in nicks:
 			if n not in self.nicks:
 				self.nicks[n] = Nickname(n, self.dim, self.font)
