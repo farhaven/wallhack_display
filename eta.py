@@ -48,8 +48,8 @@ class ETAListen(threading.Thread):
 	def append(self, data):
 		self.lock.acquire()
 		for d in data.strip().split('\n'):
-			self.data.append(d)
-		self.data = self.data[-15:]
+			self.data.append(d.replace('\t', ' ')
+		self.data = self.data[-10:]
 		self.lock.release()
 
 	def get(self):
@@ -92,7 +92,7 @@ class ETA(threading.Thread):
 		while True:
 			eta  = self.get_eta()
 			data = self.nw.get()
-			self.timeout = len(eta) * 0.5 + len(data)
+			self.timeout = len(eta) * 0.5 + (len(data) + 5)
 
 			rect = [ 20, 20 ]
 
