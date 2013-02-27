@@ -92,7 +92,7 @@ class ETA(threading.Thread):
 		while True:
 			eta  = self.get_eta()
 			data = self.nw.get()
-			self.timeout = len(eta) * 0.5 + len(todo)
+			self.timeout = len(eta) * 0.5 + len(data)
 
 			rect = [ 20, 20 ]
 
