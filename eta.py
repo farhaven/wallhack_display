@@ -19,7 +19,7 @@ class ETAListenClient(threading.Thread):
 
 	def run(self):
 		while True:
-			d = self.conn.recv(1024)
+			d = self.conn.recv(1)
 			if not d:
 				break
 			self.data += d
