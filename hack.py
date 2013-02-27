@@ -12,7 +12,8 @@ from eta import ETA
 from chaos import Chaos
 from subraum import Subraum
 
-screen_size = (1024, 768)
+# screen_size = (1024, 768)
+screen_size = (1366, 768)
 rpcserver   = 'http://cube.lan:4254'
 
 green = (0, 255, 0)
