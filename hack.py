@@ -22,8 +22,8 @@ black = (0, 0, 0)
 if __name__ == "__main__":
 	pygame.init()
 
-	# screen = pygame.display.set_mode(screen_size)
-	screen = pygame.display.set_mode(screen_size, pygame.FULLSCREEN)
+	screen = pygame.display.set_mode(screen_size)
+	# screen = pygame.display.set_mode(screen_size, pygame.FULLSCREEN)
 	pygame.display.set_caption("Wallhack")
 
 	background = pygame.surface.Surface(screen_size)
@@ -43,7 +43,8 @@ if __name__ == "__main__":
 	# subraum = Subraum(screen_size, clock)
 	# subraum.start()
 
-	modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
+	# modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
+	modules = [ (chaos, lambda: float("infinity")) ]
 	mod = 0
 	mod_timer = time.time()
 
@@ -72,4 +73,4 @@ if __name__ == "__main__":
 			pygame.draw.line(screen, darkgreen, (0, y), (screen_size[0], y), 1)
 
 		pygame.display.flip()
-		time.sleep(0.005)
+		time.sleep(0.01)

@@ -22,7 +22,9 @@ class Nickname(object):
 
 	def move(self):
 		if self.x <= 0 or self.x >= self.dim[0] - self.size[0] or self.y <= 0 or self.y >= self.dim[1] - self.size[1]:
-			self.dir += random.random() * (math.pi / 2)
+			self.dir += math.pi / 2
+			if self.dir > 2 * math.pi:
+				self.dir -= 2 * math.pi
 		self.x = int(self.x + (math.cos(self.dir) * 10))
 		self.y = int(self.y + (math.sin(self.dir) * 10))
 
