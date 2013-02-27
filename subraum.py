@@ -40,7 +40,7 @@ class Subraum(threading.Thread):
             (x1, y1) = (int(x1 * radius + xoff), int(y1 * radius + yoff))
             (x2, y2) = (int(x2 * radius + xoff), int(y2 * radius + yoff))
 
-            self.lock.acquire()
+            # self.lock.acquire()
             self.surface.fill(black)
 
             draw.lines(self.surface, green, True, [(x1, y1), (x2, y2), (x3, y3), (x4, y4)], 3)
@@ -53,9 +53,9 @@ class Subraum(threading.Thread):
             vdot = rotate_vector((0, 0.6), self.iter)
             draw.circle(self.surface, green, (int(vdot[0] * radius * xscale + xoff), int(vdot[1] * radius * yscale + yoff - radius)), 5)
 
-            self.clock.lock.acquire()
+            # self.clock.lock.acquire()
             self.surface.blit(self.clock.surface, (self.dim[0] - self.clock.get_dimensions()[0] - 10, 0))
-            self.clock.lock.release()
+            # self.clock.lock.release()
 
-            self.lock.release()
+            # self.lock.release()
             time.sleep(0.005)

@@ -97,7 +97,7 @@ class ETA(threading.Thread):
 
 			rect = [ 20, 20 ]
 
-			self.lock.acquire()
+			# self.lock.acquire()
 			self.surface.fill(black)
 
 			if len(eta) != 0:
@@ -118,8 +118,8 @@ class ETA(threading.Thread):
 			else:
 				self.surface.blit(self.font_heading.render(str(self.nw.port), True, green), rect)
 
-			self.clock.lock.acquire()
+			# self.clock.lock.acquire()
 			self.surface.blit(self.clock.surface, (self.dim[0] - self.clock.get_dimensions()[0] - 10, 0))
-			self.clock.lock.release()
-			self.lock.release()
+			# self.clock.lock.release()
+			# self.lock.release()
 			time.sleep(5)

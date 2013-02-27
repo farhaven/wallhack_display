@@ -19,7 +19,7 @@ class Clock(threading.Thread):
         while True:
             s = time.strftime("%H:%M")
             self.dim = self.font.size(s)
-            self.lock.acquire()
+            # self.lock.acquire()
             self.surface = self.font.render(s, True, green)
-            self.lock.release()
+            # self.lock.release()
             time.sleep(1)

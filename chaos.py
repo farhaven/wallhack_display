@@ -56,12 +56,12 @@ class Chaos_background(threading.Thread):
 		while True:
 			if loops == 0:
 				self.update_available()
-			self.lock.acquire()
+			# self.lock.acquire()
 			self.surface.fill(black)
 			for n in self.nicks.values():
 				n.move()
 				self.surface.blit(self.font.render(n.name, False, darkgreen), (n.x, n.y))
-			self.lock.release()
+			# self.lock.release()
 			time.sleep(0.1)
 			loops = (loops + 1) % 20
 
@@ -87,11 +87,11 @@ class Chaos(threading.Thread):
 				self.iter = 0
 			self.iter = self.iter + 0.01
 
-			self.lock.acquire()
+			# self.lock.acquire()
 			self.surface.fill(black)
-			self.background.lock.acquire()
+			# self.background.lock.acquire()
 			self.surface.blit(self.background.surface, (0, 0))
-			self.background.lock.release()
+			# self.background.lock.release()
 
 			pos1_b = (int(math.cos(self.iter) * radius_bottom), int(math.sin(self.iter) * radius_bottom * 0.2))
 			pos1_t = (int(math.cos(self.iter) * radius_top), int(math.sin(self.iter) * radius_top * 0.2))
@@ -154,9 +154,9 @@ class Chaos(threading.Thread):
 			pygame.draw.line(self.surface, green, (eye[0] - 40, eye[1] - 80), (eye[0] - 140, eye[1] - 40), 3)
 			pygame.draw.line(self.surface, green, (eye[0] + 40, eye[1] - 80), (eye[0] + 140, eye[1] - 40), 3)
 
-			self.clock.lock.acquire()
+			# self.clock.lock.acquire()
 			self.surface.blit(self.clock.surface, (self.dim[0] - self.clock.get_dimensions()[0] - 10, 0))
-			self.clock.lock.release()
-			self.lock.release()
+			# self.clock.lock.release()
+			# self.lock.release()
 
 			time.sleep(0.005)

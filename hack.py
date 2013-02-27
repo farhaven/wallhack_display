@@ -67,9 +67,9 @@ if __name__ == "__main__":
 			if mod >= len(modules):
 				mod = 0
 
-		modules[mod][0].lock.acquire()
+		# modules[mod][0].lock.acquire()
 		screen.blit(modules[mod][0].surface, (0, 0))
-		modules[mod][0].lock.release()
+		# modules[mod][0].lock.release()
 
 		for y in range(1, screen_size[1], 5):
 			pygame.draw.line(screen, darkgreen, (0, y), (screen_size[0], y), 1)
