@@ -82,7 +82,8 @@ class ETA(threading.Thread):
 		try:
 			return self.server.who()[unicode('eta')]
 		except:
-			return { "error": "server not reachable", "tried": self.rpcserver, "time": str(time.time()) }
+			return {}
+			# return { "error": "server not reachable", "tried": self.rpcserver, "time": str(time.time()) }
 
 	def get_timeout(self):
 		return self.timeout
