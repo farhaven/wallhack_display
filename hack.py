@@ -43,8 +43,9 @@ if __name__ == "__main__":
 	# subraum = Subraum(screen_size, clock)
 	# subraum.start()
 
-	modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
+	# modules = [ (eta, eta.get_timeout), (chaos, lambda: 4) ]
 	# modules = [ (chaos, lambda: float("infinity")) ]
+	modules = [ (eta, lambda: float("infinity")) ]
 	mod = 0
 	mod_timer = time.time()
 
@@ -73,4 +74,4 @@ if __name__ == "__main__":
 			pygame.draw.line(screen, darkgreen, (0, y), (screen_size[0], y), 1)
 
 		pygame.display.flip()
-		time.sleep(0.01)
+		time.sleep(0.1)
