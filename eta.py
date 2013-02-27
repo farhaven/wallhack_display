@@ -48,7 +48,7 @@ class ETAListen(threading.Thread):
 	def append(self, data):
 		self.lock.acquire()
 		for d in data.strip().split('\n'):
-			self.data.append(d.replace('\t', ' ')
+			self.data.append(d.replace('\t', ' '))
 		self.data = self.data[-10:]
 		self.lock.release()
 
